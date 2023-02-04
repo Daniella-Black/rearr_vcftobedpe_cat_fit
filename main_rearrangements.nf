@@ -4,7 +4,7 @@ Channel
     .fromPath(params.inputlist)
     .ifEmpty {exit 1, "Cannot find input file : ${params.inputlist}"}
     .splitCsv(skip:1)
-    .map{tumour_sample_platekey,sv -> [tumour_sample_platekey, file(sv)]}
+    .map{tumour_sample_platekey,sv, sigs -> [tumour_sample_platekey, file(sv), file(sigs)]}
     .set{ ch_input }
 
 
@@ -15,7 +15,7 @@ process  CloudOS_MTR_input{
     publishDir "${params.outdir}/$tumour_sample_platekey", mode: 'copy'
     
     input:
-    set val(tumour_sample_platekey), file(sv) from ch_input
+    set val(tumour_sample_platekey), file(sv), file(sigs) from ch_input
 
     output:
     file "*_rearrangement_catalogues.pdf"
@@ -27,6 +27,6 @@ process  CloudOS_MTR_input{
     
     script:
     """
-    fitms_nf_rearrangements.R '$tumour_sample_platekey' '$sv'
+    fitms_nf_rearrangements.R '$tumour_sample_platekey' '$sv' '$sigs'
     """ 
 }
