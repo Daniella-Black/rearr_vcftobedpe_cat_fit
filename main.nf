@@ -13,6 +13,9 @@ process  CloudOS_MTR_input{
     container = 'dockeraccountdani/fitms2:latest' 
     tag"$tumour_sample_platekey"
     publishDir "${params.outdir}/$tumour_sample_platekey", mode: 'copy'
+    maxForks 900
+    errorStrategy 'ignore'
+    maxRetries 3
     
     input:
     set val(tumour_sample_platekey), file(sv), file(sigs) from ch_input
