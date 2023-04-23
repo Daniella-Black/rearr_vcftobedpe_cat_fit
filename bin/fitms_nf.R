@@ -51,7 +51,8 @@ write.csv(df, paste0(sample,'_catalogue.csv'))
 res <-FitMS(catalogues = df, 
            organ =organ,
            #exposureFilterType="giniScaledThreshold",
-           rareSignatureTier = "T1",
+           #rareSignatureTier = "T1",
+           minErrorReductionPerc = 20,
            useBootstrap = TRUE, 
            nboot = 200)
 
